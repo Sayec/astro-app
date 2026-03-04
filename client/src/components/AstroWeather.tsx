@@ -69,8 +69,8 @@ function groupByDay(points: AstroWeatherPoint[], initStr: string): DayGroup[] {
             avgCloud: avg(pts.map(p => p.cloudcover)),
             avgSeeing: avg(pts.map(p => p.seeing)),
             avgTransparency: avg(pts.map(p => p.transparency)),
-            minTemp: Math.min(...pts.map(p => p.temp2m)),
-            maxTemp: Math.max(...pts.map(p => p.temp2m)),
+            minTemp: Math.min(...pts.map(p => p.temp2m).filter(t => t > -999)),
+            maxTemp: Math.max(...pts.map(p => p.temp2m).filter(t => t > -999)),
         });
     }
 
@@ -153,7 +153,7 @@ export default function AstroWeather() {
                                 <div className="weather-detail">
                                     Transp: {TRANSPARENCY_LABELS[point.transparency] || '?'}
                                 </div>
-                                <div className="weather-temp">{point.temp2m}°C</div>
+                                <div className="weather-temp">{point.temp2m > -999 ? `${point.temp2m}°C` : '—'}</div>
                             </div>
                         ))}
                     </div>
