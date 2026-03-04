@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { fetchWeather, AstroWeatherPoint } from '../api';
+import { Location } from './LocationPicker';
 import './AstroWeather.css';
 
 const CLOUD_LABELS = ['0%', '0-6%', '6-19%', '19-31%', '31-44%', '44-56%', '56-69%', '69-81%', '81-94%', '94-100%'];
@@ -89,7 +90,7 @@ function getHourLabel(timepoint: number, initStr: string): string {
     return `${String(hour).padStart(2, '0')}:00`;
 }
 
-export default function AstroWeather() {
+export default function AstroWeather({ location }: { location: Location }) {
     const [days, setDays] = useState<DayGroup[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -97,16 +98,19 @@ export default function AstroWeather() {
     const [expandedDay, setExpandedDay] = useState<number>(-1);
 
     useEffect(() => {
-        fetchWeather()
+        setLoading(true);
+        setError('');
+        fetchWeather(location.lat, location.lon)
             .then(res => {
                 const init = res.init || '';
                 setInitTime(init);
                 const grouped = groupByDay(res.dataseries.slice(0, 24), init);
                 setDays(grouped);
+                setExpandedDay(-1);
                 setLoading(false);
             })
             .catch(err => { setError(err.message); setLoading(false); });
-    }, []);
+    }, [location]);
 
     if (loading) return <div className="module-card loading">⏳ Ładowanie prognozy...</div>;
     if (error) return <div className="module-card error">❌ {error}</div>;

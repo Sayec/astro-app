@@ -1,0 +1,143 @@
+.loc-picker {
+    position: relative;
+}
+
+.loc-trigger {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    white-space: nowrap;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.loc-trigger:hover {
+    background: rgba(99, 102, 241, 0.15);
+    border-color: rgba(99, 102, 241, 0.4);
+    color: #e8e6f0;
+}
+
+.loc-dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    width: 280px;
+    background: #0f1525;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 10px;
+    z-index: 100;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    animation: dropIn 0.15s ease;
+}
+
+@keyframes dropIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.loc-search-row {
+    display: flex;
+    gap: 6px;
+}
+
+.loc-input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    color: #e8e6f0;
+    font-size: 0.8rem;
+    padding: 7px 10px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.loc-input:focus {
+    border-color: rgba(99, 102, 241, 0.5);
+}
+
+.loc-input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.loc-gps-btn {
+    background: rgba(99, 102, 241, 0.15);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: 8px;
+    color: white;
+    width: 34px;
+    height: 34px;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.loc-gps-btn:hover:not(:disabled) {
+    background: rgba(99, 102, 241, 0.3);
+}
+
+.loc-gps-btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.loc-status {
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.35);
+    text-align: center;
+    padding: 8px 0 2px;
+}
+
+.loc-results {
+    list-style: none;
+    margin-top: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.loc-results li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 10px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.loc-results li:hover {
+    background: rgba(99, 102, 241, 0.15);
+}
+
+.loc-city {
+    font-size: 0.8rem;
+    color: #e8e6f0;
+    font-weight: 500;
+}
+
+.loc-region {
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.4);
+    text-align: right;
+}

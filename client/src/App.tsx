@@ -1,10 +1,16 @@
+import { useState } from 'react';
 import AstroWeather from './components/AstroWeather';
 import TonightSky from './components/TonightSky';
 import NasaApod from './components/NasaApod';
 import Satellites from './components/Satellites';
 import Gallery from './components/Gallery';
+import LocationPicker, { Location } from './components/LocationPicker';
+
+const DEFAULT_LOCATION: Location = { lat: 52.23, lon: 21.01, name: 'Warszawa' };
 
 export default function App() {
+    const [location, setLocation] = useState<Location>(DEFAULT_LOCATION);
+
     return (
         <div className="app-container">
             <header className="app-header">
@@ -13,13 +19,15 @@ export default function App() {
                     AstroView
                 </h1>
                 <p className="app-subtitle">Twój osobisty dashboard astronomiczny</p>
-                <p className="app-location">📍 Warszawa (52.23°N, 21.01°E)</p>
+                <div className="app-location">
+                    <LocationPicker location={location} onLocationChange={setLocation} />
+                </div>
             </header>
 
             <div className="dashboard-grid">
                 {/* Row 1: Weather + Tonight's sky */}
-                <AstroWeather />
-                <TonightSky />
+                <AstroWeather location={location} />
+                <TonightSky location={location} />
 
                 {/* Row 2: NASA APOD (full width) */}
                 <div className="full-width">
@@ -27,7 +35,7 @@ export default function App() {
                 </div>
 
                 {/* Row 3: Satellites + Gallery */}
-                <Satellites />
+                <Satellites location={location} />
 
                 <div className="full-width">
                     <Gallery />

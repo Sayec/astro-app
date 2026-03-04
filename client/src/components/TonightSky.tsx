@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react';
 import { fetchSky, SkyData } from '../api';
+import { Location } from './LocationPicker';
 import './TonightSky.css';
 
-export default function TonightSky() {
+export default function TonightSky({ location }: { location: Location }) {
     const [data, setData] = useState<SkyData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
     useEffect(() => {
-        fetchSky()
+        setLoading(true);
+        fetchSky(location.lat, location.lon)
             .then(res => { setData(res); setLoading(false); })
             .catch(err => { setError(err.message); setLoading(false); });
-    }, []);
+    }, [location]);
 
     if (loading) return <div className="module-card loading">⏳ Ładowanie danych o niebie...</div>;
     if (error) return <div className="module-card error">❌ {error}</div>;

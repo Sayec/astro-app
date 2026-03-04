@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { fetchSatellites, SatellitePass } from '../api';
+import { Location } from './LocationPicker';
 import './Satellites.css';
 
 function formatUTC(utc: number): string {
@@ -19,16 +20,17 @@ function getMagClass(mag: number): string {
     return 'dim';
 }
 
-export default function Satellites() {
+export default function Satellites({ location }: { location: Location }) {
     const [passes, setPasses] = useState<SatellitePass[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
     useEffect(() => {
-        fetchSatellites()
+        setLoading(true);
+        fetchSatellites(location.lat, location.lon)
             .then(res => { setPasses(res.passes); setLoading(false); })
             .catch(err => { setError(err.message); setLoading(false); });
-    }, []);
+    }, [location]);
 
     if (loading) return <div className="module-card loading">⏳ Ładowanie przelotów satelitów...</div>;
     if (error) return <div className="module-card error">❌ {error}</div>;

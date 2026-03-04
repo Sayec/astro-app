@@ -1,6 +1,10 @@
 /* ===== AstroView Global Theme ===== */
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
+html {
+    font-size: 17px;
+}
+
 *,
 *::before,
 *::after {
@@ -98,9 +102,9 @@ body::before {
 }
 
 .app-location {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    margin-top: 4px;
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
 }
 
 /* Dashboard grid */
@@ -132,6 +136,12 @@ body::before {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.module-header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .module-header h2 {
