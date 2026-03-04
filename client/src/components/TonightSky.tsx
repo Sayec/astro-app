@@ -1,0 +1,77 @@
+import { useState, useEffect } from 'react';
+import { fetchSky, SkyData } from '../api';
+import './TonightSky.css';
+
+export default function TonightSky() {
+    const [data, setData] = useState<SkyData | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+
+    useEffect(() => {
+        fetchSky()
+            .then(res => { setData(res); setLoading(false); })
+            .catch(err => { setError(err.message); setLoading(false); });
+    }, []);
+
+    if (loading) return <div className="module-card loading">⏳ Ładowanie danych o niebie...</div>;
+    if (error) return <div className="module-card error">❌ {error}</div>;
+    if (!data) return null;
+
+    // Moon illumination determines how much shadow covers the moon disc
+    const illum = data.moon.illumination;
+    const isWaxing = data.moon.ageDays < 14.76;
+
+    return (
+        <div className="module-card tonight-sky">
+            <div className="module-header">
+                <h2>🌙 Dzisiejsze Niebo</h2>
+                <span className="module-subtitle">{new Date().toLocaleDateString('pl-PL', { weekday: 'long', day: 'numeric', month: 'long' })}</span>
+            </div>
+
+            <div className="sky-content">
+                {/* Moon visualization */}
+                <div className="moon-section">
+                    <div className="moon-disc">
+                        <div className="moon-emoji">{data.moon.emoji}</div>
+                    </div>
+                    <div className="moon-info">
+                        <div className="moon-phase-name">{data.moon.phase}</div>
+                        <div className="moon-illumination">{illum}% oświetlenia</div>
+                        <div className="moon-age">Dzień {data.moon.ageDays} cyklu</div>
+                    </div>
+                </div>
+
+                {/* Sun & Dark times */}
+                <div className="times-grid">
+                    <div className="time-item">
+                        <span className="time-icon">🌅</span>
+                        <span className="time-label">Wschód</span>
+                        <span className="time-value">{data.sunrise}</span>
+                    </div>
+                    <div className="time-item">
+                        <span className="time-icon">🌇</span>
+                        <span className="time-label">Zachód</span>
+                        <span className="time-value">{data.sunset}</span>
+                    </div>
+                    <div className="time-item">
+                        <span className="time-icon">☀️</span>
+                        <span className="time-label">Długość dnia</span>
+                        <span className="time-value">{data.dayLengthHours}h</span>
+                    </div>
+                    <div className="time-item highlight">
+                        <span className="time-icon">🔭</span>
+                        <span className="time-label">Ciemne niebo</span>
+                        <span className="time-value">{data.darkHoursStart} – {data.darkHoursEnd}</span>
+                    </div>
+                </div>
+
+                {/* Observation quality hint */}
+                <div className={`obs-quality ${illum <= 30 ? 'great' : illum <= 60 ? 'ok' : 'bad'}`}>
+                    {illum <= 30 && '🟢 Świetna noc na deep-sky! Mało światła Księżyca.'}
+                    {illum > 30 && illum <= 60 && '🟡 Dobra noc na jasne obiekty i planety.'}
+                    {illum > 60 && '🔴 Dużo poświaty Księżyca – trudne warunki dla mgławic.'}
+                </div>
+            </div>
+        </div>
+    );
+}

@@ -1,0 +1,117 @@
+.passes-list {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pass-row {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    padding: 14px 16px;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+
+.pass-row:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.pass-row.soon {
+    border-color: rgba(34, 197, 94, 0.3);
+    background: rgba(34, 197, 94, 0.05);
+}
+
+.pass-sat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.sat-icon {
+    font-size: 1.3rem;
+}
+
+.sat-name {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #e8e6f0;
+}
+
+.soon-badge {
+    background: rgba(34, 197, 94, 0.15);
+    color: #86efac;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 6px;
+    letter-spacing: 1px;
+    animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.pass-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.pass-time,
+.pass-direction,
+.pass-elevation,
+.pass-duration,
+.pass-mag {
+    display: flex;
+    flex-direction: column;
+    min-width: 80px;
+}
+
+.detail-label {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.detail-value {
+    font-size: 0.85rem;
+    color: #e8e6f0;
+    font-weight: 500;
+}
+
+.pass-mag.very-bright .detail-value {
+    color: #fbbf24;
+}
+
+.pass-mag.bright .detail-value {
+    color: #86efac;
+}
+
+.pass-mag.visible .detail-value {
+    color: #93c5fd;
+}
+
+.pass-mag.dim .detail-value {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.no-passes {
+    text-align: center;
+    padding: 40px 20px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.95rem;
+}
