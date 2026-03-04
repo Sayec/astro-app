@@ -262,6 +262,14 @@
     background: #ef4444;
 }
 
+.weather-footnote {
+    text-align: center;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.35);
+    font-style: italic;
+    margin-top: 8px;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .day-cards {

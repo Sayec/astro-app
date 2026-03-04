@@ -35,6 +35,7 @@ interface DayGroup {
     avgTransparency: number;
     minTemp: number;
     maxTemp: number;
+    incomplete: boolean; // true if some data points have -9999 values
 }
 
 function groupByDay(points: AstroWeatherPoint[], initStr: string): DayGroup[] {
@@ -62,6 +63,8 @@ function groupByDay(points: AstroWeatherPoint[], initStr: string): DayGroup[] {
         const dayName = DAY_NAMES[date.getDay()];
         const dd = String(date.getDate()).padStart(2, '0');
         const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const hasInvalid = pts.some(p => p.temp2m <= -999);
+        const validTemps = pts.map(p => p.temp2m).filter(t => t > -999);
         groups.push({
             date,
             label: `${dayName} ${dd}.${mm}`,
@@ -69,8 +72,9 @@ function groupByDay(points: AstroWeatherPoint[], initStr: string): DayGroup[] {
             avgCloud: avg(pts.map(p => p.cloudcover)),
             avgSeeing: avg(pts.map(p => p.seeing)),
             avgTransparency: avg(pts.map(p => p.transparency)),
-            minTemp: Math.min(...pts.map(p => p.temp2m).filter(t => t > -999)),
-            maxTemp: Math.max(...pts.map(p => p.temp2m).filter(t => t > -999)),
+            minTemp: validTemps.length ? Math.min(...validTemps) : 0,
+            maxTemp: validTemps.length ? Math.max(...validTemps) : 0,
+            incomplete: hasInvalid,
         });
     }
 
@@ -120,11 +124,11 @@ export default function AstroWeather() {
                         className={`day-card ${getCloudClass(day.avgCloud)} ${expandedDay === i ? 'active' : ''}`}
                         onClick={() => setExpandedDay(expandedDay === i ? -1 : i)}
                     >
-                        <div className="day-label">{day.label}</div>
+                        <div className="day-label">{day.label}{day.incomplete ? ' *' : ''}</div>
                         <div className="day-icon">
                             {day.avgCloud <= 2 ? '☀️' : day.avgCloud <= 5 ? '⛅' : '☁️'}
                         </div>
-                        <div className="day-cloud">{CLOUD_LABELS[day.avgCloud]}</div>
+                        <div className="day-cloud">{CLOUD_LABELS[day.avgCloud] || '—'}{day.incomplete ? ' *' : ''}</div>
                         <div className="day-stats">
                             <span className={`seeing-dot ${getSeeingClass(day.avgSeeing)}`}></span>
                             <span className="day-temp">{day.maxTemp}° / {day.minTemp}°</span>
@@ -183,6 +187,10 @@ export default function AstroWeather() {
                     <span className="legend-item"><span className="dot poor"></span> Słaba</span>
                 </div>
             </div>
+
+            {days.some(d => d.incomplete) && (
+                <div className="weather-footnote">* Dane za ten dzień są niepełne — zakresy mogą być niedokładne</div>
+            )}
         </div>
     );
 }
