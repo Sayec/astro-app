@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { fetchWeather, AstroWeatherPoint } from '../api';
 import './AstroWeather.css';
 
-const CLOUD_LABELS = ['', '0-6%', '6-19%', '19-31%', '31-44%', '44-56%', '56-69%', '69-81%', '81-94%', '94-100%'];
+const CLOUD_LABELS = ['0%', '0-6%', '6-19%', '19-31%', '31-44%', '44-56%', '56-69%', '69-81%', '81-94%', '94-100%'];
 const SEEING_LABELS = ['', '<0.5"', '0.5-0.75"', '0.75-1"', '1-1.25"', '1.25-1.5"', '1.5-2"', '2-2.5"', '>2.5"'];
 const TRANSPARENCY_LABELS = ['', 'Doskonała', 'Ponadprzeciętna', 'Średnia', 'Poniżej średniej', 'Słaba', 'Bardzo słaba', 'Terrible', 'N/A'];
 
@@ -23,7 +23,9 @@ function getSeeingClass(seeing: number): string {
 }
 
 function avg(arr: number[]): number {
-    return Math.round(arr.reduce((a, b) => a + b, 0) / arr.length);
+    const valid = arr.filter(v => v > -999);
+    if (valid.length === 0) return 0;
+    return Math.round(valid.reduce((a, b) => a + b, 0) / valid.length);
 }
 
 interface DayGroup {
@@ -124,14 +126,14 @@ export default function AstroWeather() {
                         className={`day-card ${getCloudClass(day.avgCloud)} ${expandedDay === i ? 'active' : ''}`}
                         onClick={() => setExpandedDay(expandedDay === i ? -1 : i)}
                     >
-                        <div className="day-label">{day.label}{day.incomplete ? ' *' : ''}</div>
+                        <div className="day-label">{day.label}</div>
                         <div className="day-icon">
                             {day.avgCloud <= 2 ? '☀️' : day.avgCloud <= 5 ? '⛅' : '☁️'}
                         </div>
                         <div className="day-cloud">{CLOUD_LABELS[day.avgCloud] || '—'}{day.incomplete ? ' *' : ''}</div>
                         <div className="day-stats">
                             <span className={`seeing-dot ${getSeeingClass(day.avgSeeing)}`}></span>
-                            <span className="day-temp">{day.maxTemp}° / {day.minTemp}°</span>
+                            <span className="day-temp">{day.maxTemp}° / {day.minTemp}°{day.incomplete ? ' *' : ''}</span>
                         </div>
                         <div className="day-expand-hint">{expandedDay === i ? '▲' : '▼'}</div>
                     </div>
