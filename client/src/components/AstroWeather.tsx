@@ -127,7 +127,7 @@ export default function AstroWeather() {
                         <div className="day-cloud">{CLOUD_LABELS[day.avgCloud]}</div>
                         <div className="day-stats">
                             <span className={`seeing-dot ${getSeeingClass(day.avgSeeing)}`}></span>
-                            <span className="day-temp">{day.minTemp}° / {day.maxTemp}°</span>
+                            <span className="day-temp">{day.maxTemp}° / {day.minTemp}°</span>
                         </div>
                         <div className="day-expand-hint">{expandedDay === i ? '▲' : '▼'}</div>
                     </div>
@@ -161,10 +161,27 @@ export default function AstroWeather() {
             )}
 
             <div className="weather-legend">
-                <span className="legend-item"><span className="dot excellent"></span> Świetne</span>
-                <span className="legend-item"><span className="dot good"></span> Dobre</span>
-                <span className="legend-item"><span className="dot average"></span> Średnie</span>
-                <span className="legend-item"><span className="dot poor"></span> Słabe</span>
+                <div className="legend-section">
+                    <span className="legend-title">Zachmurzenie:</span>
+                    <span className="legend-item"><span className="dot excellent"></span> 0-19%</span>
+                    <span className="legend-item"><span className="dot good"></span> 19-44%</span>
+                    <span className="legend-item"><span className="dot average"></span> 44-69%</span>
+                    <span className="legend-item"><span className="dot poor"></span> 69-100%</span>
+                </div>
+                <div className="legend-section">
+                    <span className="legend-title">Seeing:</span>
+                    <span className="legend-item"><span className="dot excellent"></span> &lt;0.75"</span>
+                    <span className="legend-item"><span className="dot good"></span> 0.75-1.25"</span>
+                    <span className="legend-item"><span className="dot average"></span> 1.25-2"</span>
+                    <span className="legend-item"><span className="dot poor"></span> &gt;2"</span>
+                </div>
+                <div className="legend-section">
+                    <span className="legend-title">Transp:</span>
+                    <span className="legend-item"><span className="dot excellent"></span> Doskonała</span>
+                    <span className="legend-item"><span className="dot good"></span> Ponadprzeciętna</span>
+                    <span className="legend-item"><span className="dot average"></span> Średnia</span>
+                    <span className="legend-item"><span className="dot poor"></span> Słaba</span>
+                </div>
             </div>
         </div>
     );
