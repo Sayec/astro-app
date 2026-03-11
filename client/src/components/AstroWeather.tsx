@@ -96,6 +96,20 @@ export default function AstroWeather({ location }: { location: Location }) {
     const [error, setError] = useState('');
     const [initTime, setInitTime] = useState('');
     const [expandedDay, setExpandedDay] = useState<number>(-1);
+    const [closingDay, setClosingDay] = useState<number>(-1);
+
+    const handleDayClick = (i: number) => {
+        if (expandedDay === i) {
+            // Collapse with animation
+            setClosingDay(i);
+            setExpandedDay(-1);
+            setTimeout(() => setClosingDay(-1), 300);
+        } else {
+            // If another day was expanded, close it instantly and open the new one
+            setClosingDay(-1);
+            setExpandedDay(i);
+        }
+    };
 
     useEffect(() => {
         setLoading(true);
@@ -128,7 +142,7 @@ export default function AstroWeather({ location }: { location: Location }) {
                     <React.Fragment key={i}>
                         <div
                             className={`day-card ${getCloudClass(day.avgCloud)} ${expandedDay === i ? 'active' : ''}`}
-                            onClick={() => setExpandedDay(expandedDay === i ? -1 : i)}
+                            onClick={() => handleDayClick(i)}
                             style={{ gridRow: '1', gridColumn: `${i + 1}` }}
                         >
                             <div className="day-label">{day.label}</div>
@@ -140,12 +154,12 @@ export default function AstroWeather({ location }: { location: Location }) {
                                 <span className={`seeing-dot ${getSeeingClass(day.avgSeeing)}`}></span>
                                 <span className="day-temp">{day.maxTemp}° / {day.minTemp}°{day.incomplete ? ' *' : ''}</span>
                             </div>
-                            <div className="day-expand-hint">{expandedDay === i ? '▲' : '▼'}</div>
+                            <div className="day-expand-hint">{expandedDay === i || closingDay === i ? '▲' : '▼'}</div>
                         </div>
 
                         {/* Expanded hourly detail */}
-                        {expandedDay === i && (
-                            <div className="hourly-detail" style={{ gridRow: '2', gridColumn: '1 / -1' }}>
+                        {(expandedDay === i || closingDay === i) && (
+                            <div className={`hourly-detail ${closingDay === i ? 'closing' : ''}`} style={{ gridRow: '2', gridColumn: '1 / -1' }}>
                                 <div className="hourly-title">{day.label} — szczegóły co 3h</div>
                                 <div className="hourly-grid">
                                     {day.points.map((point, j) => (

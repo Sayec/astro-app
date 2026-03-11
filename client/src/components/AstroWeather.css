@@ -93,6 +93,10 @@
     animation: expandIn 0.3s ease;
 }
 
+.hourly-detail.closing {
+    animation: collapseOut 0.3s ease forwards;
+}
+
 @keyframes expandIn {
     from {
         opacity: 0;
@@ -102,6 +106,18 @@
     to {
         opacity: 1;
         max-height: 500px;
+    }
+}
+
+@keyframes collapseOut {
+    from {
+        opacity: 1;
+        max-height: 500px;
+    }
+
+    to {
+        opacity: 0;
+        max-height: 0;
     }
 }
 
