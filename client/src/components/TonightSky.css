@@ -120,3 +120,16 @@
     color: #fca5a5;
     border: 1px solid rgba(239, 68, 68, 0.2);
 }
+
+@media (max-width: 768px) {
+    .moon-section {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+        padding: 16px;
+    }
+
+    .moon-phase-name {
+        font-size: 1.1rem;
+    }
+}

@@ -513,6 +513,10 @@
 
 /* Responsive */
 @media (max-width: 768px) {
+    .gallery .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+
     .lightbox-arrow {
         display: none;
     }

@@ -115,3 +115,18 @@
     color: rgba(255, 255, 255, 0.5);
     font-size: 0.95rem;
 }
+
+@media (max-width: 768px) {
+
+    .pass-time,
+    .pass-direction,
+    .pass-elevation,
+    .pass-duration,
+    .pass-mag {
+        min-width: 60px;
+    }
+
+    .pass-details {
+        gap: 10px;
+    }
+}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { fetchWeather, AstroWeatherPoint } from '../api';
 import { Location } from './LocationPicker';
 import './AstroWeather.css';
@@ -123,52 +123,54 @@ export default function AstroWeather({ location }: { location: Location }) {
             </div>
 
             {/* Daily summary cards */}
-            <div className="day-cards">
+            <div className="day-cards" style={{ gridTemplateColumns: `repeat(${Math.max(1, days.length)}, 1fr)` }}>
                 {days.map((day, i) => (
-                    <div
-                        key={i}
-                        className={`day-card ${getCloudClass(day.avgCloud)} ${expandedDay === i ? 'active' : ''}`}
-                        onClick={() => setExpandedDay(expandedDay === i ? -1 : i)}
-                    >
-                        <div className="day-label">{day.label}</div>
-                        <div className="day-icon">
-                            {day.avgCloud <= 2 ? '☀️' : day.avgCloud <= 5 ? '⛅' : '☁️'}
+                    <React.Fragment key={i}>
+                        <div
+                            className={`day-card ${getCloudClass(day.avgCloud)} ${expandedDay === i ? 'active' : ''}`}
+                            onClick={() => setExpandedDay(expandedDay === i ? -1 : i)}
+                            style={{ gridRow: '1', gridColumn: `${i + 1}` }}
+                        >
+                            <div className="day-label">{day.label}</div>
+                            <div className="day-icon">
+                                {day.avgCloud <= 2 ? '☀️' : day.avgCloud <= 5 ? '⛅' : '☁️'}
+                            </div>
+                            <div className="day-cloud">{CLOUD_LABELS[day.avgCloud] || '—'}{day.incomplete ? ' *' : ''}</div>
+                            <div className="day-stats">
+                                <span className={`seeing-dot ${getSeeingClass(day.avgSeeing)}`}></span>
+                                <span className="day-temp">{day.maxTemp}° / {day.minTemp}°{day.incomplete ? ' *' : ''}</span>
+                            </div>
+                            <div className="day-expand-hint">{expandedDay === i ? '▲' : '▼'}</div>
                         </div>
-                        <div className="day-cloud">{CLOUD_LABELS[day.avgCloud] || '—'}{day.incomplete ? ' *' : ''}</div>
-                        <div className="day-stats">
-                            <span className={`seeing-dot ${getSeeingClass(day.avgSeeing)}`}></span>
-                            <span className="day-temp">{day.maxTemp}° / {day.minTemp}°{day.incomplete ? ' *' : ''}</span>
-                        </div>
-                        <div className="day-expand-hint">{expandedDay === i ? '▲' : '▼'}</div>
-                    </div>
+
+                        {/* Expanded hourly detail */}
+                        {expandedDay === i && (
+                            <div className="hourly-detail" style={{ gridRow: '2', gridColumn: '1 / -1' }}>
+                                <div className="hourly-title">{day.label} — szczegóły co 3h</div>
+                                <div className="hourly-grid">
+                                    {day.points.map((point, j) => (
+                                        <div key={j} className={`weather-cell ${getCloudClass(point.cloudcover)}`}>
+                                            <div className="weather-hour">{getHourLabel(point.timepoint, initTime)}</div>
+                                            <div className="weather-cloud-icon">
+                                                {point.cloudcover <= 2 ? '☀️' : point.cloudcover <= 5 ? '⛅' : '☁️'}
+                                            </div>
+                                            <div className="weather-cloud-text">{CLOUD_LABELS[point.cloudcover]}</div>
+                                            <div className="weather-detail">
+                                                <span className={`seeing-dot ${getSeeingClass(point.seeing)}`}></span>
+                                                Seeing: {SEEING_LABELS[point.seeing] || '?'}
+                                            </div>
+                                            <div className="weather-detail">
+                                                Transp: {TRANSPARENCY_LABELS[point.transparency] || '?'}
+                                            </div>
+                                            <div className="weather-temp">{point.temp2m > -999 ? `${point.temp2m}°C` : '—'}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </React.Fragment>
                 ))}
             </div>
-
-            {/* Expanded hourly detail */}
-            {expandedDay >= 0 && expandedDay < days.length && (
-                <div className="hourly-detail">
-                    <div className="hourly-title">{days[expandedDay].label} — szczegóły co 3h</div>
-                    <div className="hourly-grid">
-                        {days[expandedDay].points.map((point, i) => (
-                            <div key={i} className={`weather-cell ${getCloudClass(point.cloudcover)}`}>
-                                <div className="weather-hour">{getHourLabel(point.timepoint, initTime)}</div>
-                                <div className="weather-cloud-icon">
-                                    {point.cloudcover <= 2 ? '☀️' : point.cloudcover <= 5 ? '⛅' : '☁️'}
-                                </div>
-                                <div className="weather-cloud-text">{CLOUD_LABELS[point.cloudcover]}</div>
-                                <div className="weather-detail">
-                                    <span className={`seeing-dot ${getSeeingClass(point.seeing)}`}></span>
-                                    Seeing: {SEEING_LABELS[point.seeing] || '?'}
-                                </div>
-                                <div className="weather-detail">
-                                    Transp: {TRANSPARENCY_LABELS[point.transparency] || '?'}
-                                </div>
-                                <div className="weather-temp">{point.temp2m > -999 ? `${point.temp2m}°C` : '—'}</div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )}
 
             <div className="weather-legend">
                 <div className="legend-section">

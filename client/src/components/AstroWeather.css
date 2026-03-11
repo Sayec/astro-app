@@ -1,12 +1,11 @@
 /* ===== Daily summary cards ===== */
 .day-cards {
-    display: flex;
+    display: grid;
     gap: 10px;
     margin-top: 16px;
 }
 
 .day-card {
-    flex: 1;
     background: rgba(255, 255, 255, 0.04);
     border-radius: 14px;
     padding: 16px 12px;
@@ -88,7 +87,7 @@
 
 /* ===== Expanded hourly detail ===== */
 .hourly-detail {
-    margin-top: 16px;
+    margin-top: 6px;
     padding-top: 16px;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     animation: expandIn 0.3s ease;
@@ -273,6 +272,7 @@
 /* Responsive */
 @media (max-width: 768px) {
     .day-cards {
+        display: flex;
         flex-direction: column;
     }
 

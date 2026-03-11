@@ -175,6 +175,14 @@ body::before {
 
 /* Responsive */
 @media (max-width: 768px) {
+    html {
+        font-size: 15px;
+    }
+
+    .app-container {
+        padding: 16px 12px;
+    }
+
     .dashboard-grid {
         grid-template-columns: 1fr;
     }
@@ -189,6 +197,8 @@ body::before {
 
     .module-card {
         padding: 16px;
+        min-width: 0;
+        overflow: hidden;
     }
 }
 
