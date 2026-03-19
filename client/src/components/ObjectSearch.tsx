@@ -153,7 +153,7 @@ export default function ObjectSearch({ location }: { location: Location }) {
                                 <div className="dso-card-header">
                                     <div className="dso-card-title">
                                         <div className="dso-card-name">
-                                            {getTypeEmoji(obj.typeId)} {obj.name}
+                                            {getTypeEmoji(obj.typeId)} {obj.name} <span style={{fontSize: '0.85em', color: 'var(--text-muted)'}}>({vis.currentAltitude > 0 ? '+' : ''}{vis.currentAltitude}°)</span>
                                         </div>
                                         <div className="dso-card-type">
                                             {getTypeNamePL(obj.type)}
