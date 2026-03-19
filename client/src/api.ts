@@ -141,3 +141,40 @@ export async function deletePhoto(id: string, adminKey: string): Promise<void> {
     });
     if (!res.ok) throw new Error('Delete failed');
 }
+
+// ===== DSO Search =====
+export interface DSOVisibility {
+    maxAltitude: number;
+    isCircumpolar: boolean;
+    neverRises: boolean;
+    bestMonths: number[];
+    currentAltitude: number;
+    isAboveHorizon: boolean;
+    bestSeason: string;
+    recommendation: string;
+}
+
+export interface DSOSearchResult {
+    id: string;
+    name: string;
+    type: string;
+    typeId: string;
+    subType: string | null;
+    constellation: string;
+    constellationShort: string;
+    ra: { hours: number; string: string };
+    dec: { degrees: number; string: string };
+    alternativeNames: string[];
+    visibility: DSOVisibility;
+}
+
+export async function searchDSO(query: string, lat?: number, lon?: number): Promise<DSOSearchResult[]> {
+    const params = new URLSearchParams({ q: query });
+    if (lat) params.set('lat', lat.toString());
+    if (lon) params.set('lon', lon.toString());
+    const res = await fetch(`${API_BASE}/dso/search?${params}`);
+    if (!res.ok) throw new Error('Failed to search DSO');
+    const data = await res.json();
+    return data.results || [];
+}
+

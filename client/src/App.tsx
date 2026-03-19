@@ -4,6 +4,7 @@ import TonightSky from './components/TonightSky';
 import NasaApod from './components/NasaApod';
 import Satellites from './components/Satellites';
 import Gallery from './components/Gallery';
+import ObjectSearch from './components/ObjectSearch';
 import LocationPicker, { Location } from './components/LocationPicker';
 
 const DEFAULT_LOCATION: Location = { lat: 52.23, lon: 21.01, name: 'Warszawa' };
@@ -34,8 +35,9 @@ export default function App() {
                     <NasaApod />
                 </div>
 
-                {/* Row 3: Satellites + Gallery */}
+                {/* Row 3: Satellites + Object Search */}
                 <Satellites location={location} />
+                <ObjectSearch location={location} />
 
                 <div className="full-width">
                     <Gallery />

@@ -6,6 +6,7 @@ import skyRouter from './routes/sky.js';
 import apodRouter from './routes/apod.js';
 import satellitesRouter from './routes/satellites.js';
 import galleryRouter from './routes/gallery.js';
+import dsoRouter from './routes/dso.js';
 import { initCloudinary } from './services/cloudinary.js';
 
 const app = express();
@@ -31,6 +32,7 @@ app.use('/api/sky', skyRouter);
 app.use('/api/apod', apodRouter);
 app.use('/api/satellites', satellitesRouter);
 app.use('/api/gallery', galleryRouter);
+app.use('/api/dso', dsoRouter);
 
 // Health check
 app.get('/api/health', (_req, res) => {
