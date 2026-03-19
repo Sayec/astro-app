@@ -283,16 +283,19 @@ export default function Gallery() {
             {/* Lightbox – rendered via portal to escape backdrop-filter parent */}
             {selectedItem && createPortal(
                 <div className={`lightbox ${closing ? 'closing' : ''}`} onClick={closeLightbox}>
-                    {/* Prev arrow */}
-                    {selectedIndex > 0 && (
-                        <button className="lightbox-arrow lightbox-prev" onClick={e => { e.stopPropagation(); goPrev(); }}>‹</button>
-                    )}
-
                     <div className="lightbox-content" onClick={e => e.stopPropagation()}>
                         <button className="lightbox-close" onClick={closeLightbox}>✕</button>
 
                         <div className="lightbox-image-container">
+                            {/* Prev arrow */}
+                            {selectedIndex > 0 && (
+                                <button className="lightbox-arrow lightbox-prev" onClick={e => { e.stopPropagation(); goPrev(); }}>‹</button>
+                            )}
                             <img src={selectedItem.imageUrl} alt={selectedItem.title} className="lightbox-image" />
+                            {/* Next arrow */}
+                            {selectedIndex < filteredItems.length - 1 && (
+                                <button className="lightbox-arrow lightbox-next" onClick={e => { e.stopPropagation(); goNext(); }}>›</button>
+                            )}
                         </div>
 
                         <div className="lightbox-info">
@@ -361,10 +364,6 @@ export default function Gallery() {
                         </div>
                     </div>
 
-                    {/* Next arrow */}
-                    {selectedIndex < filteredItems.length - 1 && (
-                        <button className="lightbox-arrow lightbox-next" onClick={e => { e.stopPropagation(); goNext(); }}>›</button>
-                    )}
                 </div>
                 , document.body)}
         </div>

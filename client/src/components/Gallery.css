@@ -314,7 +314,7 @@
 
 /* Arrows */
 .lightbox-arrow {
-    position: fixed;
+    position: absolute;
     top: 50%;
     transform: translateY(-50%);
     background: rgba(255, 255, 255, 0.1);
@@ -329,15 +329,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s;
+    transition: all 0.3s ease;
     z-index: 1002;
     line-height: 1;
     padding-bottom: 3px;
+    opacity: 0;
+}
+
+.lightbox-image-container:hover .lightbox-arrow {
+    opacity: 1;
 }
 
 .lightbox-arrow:hover {
-    background: rgba(99, 102, 241, 0.3);
-    border-color: rgba(99, 102, 241, 0.5);
+    background: rgba(99, 102, 241, 0.6);
+    border-color: rgba(99, 102, 241, 0.8);
     transform: translateY(-50%) scale(1.1);
 }
 
@@ -380,6 +385,7 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    position: relative;
 }
 
 .lightbox-image {
