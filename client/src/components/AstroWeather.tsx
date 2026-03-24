@@ -23,6 +23,13 @@ function getSeeingClass(seeing: number): string {
     return 'poor';
 }
 
+function getTransparencyClass(transp: number): string {
+    if (transp <= 2) return 'excellent';
+    if (transp <= 4) return 'good';
+    if (transp <= 6) return 'average';
+    return 'poor';
+}
+
 function avg(arr: number[]): number {
     const valid = arr.filter(v => v > -999);
     if (valid.length === 0) return 0;
@@ -151,7 +158,8 @@ export default function AstroWeather({ location }: { location: Location }) {
                             </div>
                             <div className="day-cloud">{CLOUD_LABELS[day.avgCloud] || '—'}{day.incomplete ? ' *' : ''}</div>
                             <div className="day-stats">
-                                <span className={`seeing-dot ${getSeeingClass(day.avgSeeing)}`}></span>
+                                <span className={`seeing-dot ${getSeeingClass(day.avgSeeing)}`} title={`Seeing: ${SEEING_LABELS[day.avgSeeing] || '?'}`}></span>
+                                <span className={`transp-dot ${getTransparencyClass(day.avgTransparency)}`} title={`Transp: ${TRANSPARENCY_LABELS[day.avgTransparency] || '?'}`}></span>
                                 <span className="day-temp">{day.maxTemp}° / {day.minTemp}°{day.incomplete ? ' *' : ''}</span>
                             </div>
                             <div className="day-expand-hint">{expandedDay === i || closingDay === i ? '▲' : '▼'}</div>

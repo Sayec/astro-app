@@ -217,6 +217,31 @@
     background: #ef4444;
 }
 
+/* Transparency indicator (square shape to distinguish from seeing) */
+.transp-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 2px;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.transp-dot.excellent {
+    background: #22c55e;
+}
+
+.transp-dot.good {
+    background: #3b82f6;
+}
+
+.transp-dot.average {
+    background: #eab308;
+}
+
+.transp-dot.poor {
+    background: #ef4444;
+}
+
 .weather-temp {
     font-size: 0.75rem;
     color: rgba(255, 255, 255, 0.8);

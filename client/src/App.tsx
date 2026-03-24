@@ -5,6 +5,8 @@ import NasaApod from './components/NasaApod';
 import Satellites from './components/Satellites';
 import Gallery from './components/Gallery';
 import ObjectSearch from './components/ObjectSearch';
+import TopObjects from './components/TopObjects';
+import FrameCalc from './components/FrameCalc';
 import LocationPicker, { Location } from './components/LocationPicker';
 
 const DEFAULT_LOCATION: Location = { lat: 52.23, lon: 21.01, name: 'Warszawa' };
@@ -26,11 +28,17 @@ export default function App() {
             </header>
 
             <div className="dashboard-grid">
-                {/* Row 1: Weather + Tonight's sky */}
+                {/* Row 1: Weather + Tonight's sky + Frame calc */}
                 <AstroWeather location={location} />
                 <TonightSky location={location} />
+                <FrameCalc location={location} />
 
-                {/* Row 2: NASA APOD (full width) */}
+                {/* Row 2: Top objects for tonight (full width) */}
+                <div className="full-width">
+                    <TopObjects location={location} />
+                </div>
+
+                {/* Row 3: NASA APOD (full width) */}
                 <div className="full-width">
                     <NasaApod />
                 </div>

@@ -178,3 +178,30 @@ export async function searchDSO(query: string, lat?: number, lon?: number): Prom
     return data.results || [];
 }
 
+// ===== Top Objects =====
+export interface TopObjectItem {
+    id: string;
+    name: string;
+    type: string;
+    emoji: string;
+    rating: number;
+    reason: string;
+    maxAltitude: number;
+    currentAltitude: number;
+    isAboveHorizon: boolean;
+    bestSeason: string;
+}
+
+export interface TopObjectsResponse {
+    objects: TopObjectItem[];
+    moonIllumination: number;
+}
+
+export async function fetchTopObjects(lat?: number, lon?: number): Promise<TopObjectsResponse> {
+    const params = new URLSearchParams();
+    if (lat) params.set('lat', lat.toString());
+    if (lon) params.set('lon', lon.toString());
+    const res = await fetch(`${API_BASE}/top-objects?${params}`);
+    if (!res.ok) throw new Error('Failed to fetch top objects');
+    return res.json();
+}
