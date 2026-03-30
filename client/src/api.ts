@@ -27,6 +27,10 @@ export interface MoonPhaseData {
     illumination: number;
     ageDays: number;
     emoji: string;
+    nextFullMoon: string;
+    nextNewMoon: string;
+    daysToFullMoon: number;
+    daysToNewMoon: number;
 }
 
 export interface SkyData {

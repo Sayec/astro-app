@@ -40,6 +40,24 @@ export default function TonightSky({ location }: { location: Location }) {
                         <div className="moon-phase-name">{data.moon.phase}</div>
                         <div className="moon-illumination">{illum}% oświetlenia</div>
                         <div className="moon-age">Dzień {data.moon.ageDays} cyklu</div>
+                        <div className="moon-upcoming">
+                            <div className="moon-event">
+                                <span className="moon-event-icon">🌕</span>
+                                <span className="moon-event-label">Pełnia</span>
+                                <span className="moon-event-date">{data.moon.nextFullMoon}</span>
+                                <span className="moon-event-days">
+                                    {data.moon.daysToFullMoon === 0 ? 'dziś!' : `za ${data.moon.daysToFullMoon} dn.`}
+                                </span>
+                            </div>
+                            <div className="moon-event">
+                                <span className="moon-event-icon">🌑</span>
+                                <span className="moon-event-label">Nów</span>
+                                <span className="moon-event-date">{data.moon.nextNewMoon}</span>
+                                <span className="moon-event-days">
+                                    {data.moon.daysToNewMoon === 0 ? 'dziś!' : `za ${data.moon.daysToNewMoon} dn.`}
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
