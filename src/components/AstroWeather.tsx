@@ -57,12 +57,17 @@ function groupByDay(points: AstroWeatherPoint[], initStr: string): DayGroup[] {
     const initMonth = parseInt(initStr.slice(4, 6)) - 1;
     const initDay = parseInt(initStr.slice(6, 8));
     const initHour = parseInt(initStr.slice(8, 10));
-    const initDate = new Date(initYear, initMonth, initDay, initHour);
+    const initDate = new Date(Date.UTC(initYear, initMonth, initDay, initHour));
+    const now = new Date().getTime();
 
     const dayMap = new Map<string, { date: Date; points: AstroWeatherPoint[] }>();
 
     for (const point of points) {
         const pointDate = new Date(initDate.getTime() + point.timepoint * 3600 * 1000);
+        
+        // Ignoruj punkty, których 3-godzinne okno już całkowicie minęło
+        if (pointDate.getTime() + 10800000 <= now) continue;
+
         const dayKey = `${pointDate.getFullYear()}-${pointDate.getMonth()}-${pointDate.getDate()}`;
 
         if (!dayMap.has(dayKey)) {
@@ -95,9 +100,13 @@ function groupByDay(points: AstroWeatherPoint[], initStr: string): DayGroup[] {
 }
 
 function getHourLabel(timepoint: number, initStr: string): string {
+    const initYear = parseInt(initStr.slice(0, 4));
+    const initMonth = parseInt(initStr.slice(4, 6)) - 1;
+    const initDay = parseInt(initStr.slice(6, 8));
     const initHour = parseInt(initStr.slice(8, 10));
-    const hour = (initHour + timepoint) % 24;
-    return `${String(hour).padStart(2, '0')}:00`;
+    const initDate = new Date(Date.UTC(initYear, initMonth, initDay, initHour));
+    const pointDate = new Date(initDate.getTime() + timepoint * 3600 * 1000);
+    return `${String(pointDate.getHours()).padStart(2, '0')}:00`;
 }
 
 export default function AstroWeather({ location }: { location: Location }) {
@@ -128,8 +137,11 @@ export default function AstroWeather({ location }: { location: Location }) {
             .then(res => {
                 const init = res.init || '';
                 setInitTime(init);
-                const grouped = groupByDay(res.dataseries.slice(0, 24), init);
-                setDays(grouped);
+                // Pobieramy trochę więcej punktów, by po odfiltrowaniu starych, 
+                // wciąż zachować co najmniej 72 godziny do przodu
+                const grouped = groupByDay(res.dataseries.slice(0, 32), init);
+                // Ogranicz do pierwszych 3 dób dla czytelności (opcjonalnie)
+                setDays(grouped.slice(0, 4));
                 setExpandedDay(-1);
                 setLoading(false);
             })
