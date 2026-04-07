@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { fetchWeather, AstroWeatherPoint } from '@/api';
+import { fetchWeather } from '@/api';
+import type { AstroWeatherPoint } from '@/types';
 import { Location } from './LocationPicker';
 import './AstroWeather.css';
 

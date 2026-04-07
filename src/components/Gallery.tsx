@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { fetchGallery, uploadPhoto, deletePhoto, GalleryItem } from '@/api';
+import { fetchGallery, uploadPhoto, deletePhoto } from '@/api';
+import type { GalleryItem } from '@/types';
 import './Gallery.css';
 
 const PRESET_TAGS = ['Mgławice', 'Galaktyki', 'Planety', 'Księżyc', 'Widefield', 'Gromady', 'Komety', 'Słońce'];

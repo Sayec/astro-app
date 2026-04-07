@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { fetchTopObjects, TopObjectItem } from '@/api';
+import { fetchTopObjects } from '@/api';
+import type { TopObjectItem } from '@/types';
 import { Location } from './LocationPicker';
 import './TopObjects.css';
 

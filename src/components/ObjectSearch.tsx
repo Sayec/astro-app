@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useCallback, useRef } from 'react';
-import { searchDSO, DSOSearchResult } from '@/api';
+import { searchDSO } from '@/api';
+import type { DSOSearchResult } from '@/types';
 import { Location } from './LocationPicker';
 import './ObjectSearch.css';
 

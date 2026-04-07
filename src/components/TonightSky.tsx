@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { fetchSky, SkyData } from '@/api';
+import { fetchSky } from '@/api';
+import type { SkyData } from '@/types';
 import { Location } from './LocationPicker';
 import './TonightSky.css';
 

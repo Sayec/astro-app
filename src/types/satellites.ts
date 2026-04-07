@@ -25,3 +25,9 @@ export interface SatelliteResponse {
     };
     passes: SatellitePass[];
 }
+
+export interface SatelliteData {
+    location: { lat: number; lon: number };
+    passes: SatellitePass[];
+    count: number;
+}

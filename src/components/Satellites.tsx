@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { fetchSatellites, SatellitePass } from '@/api';
+import { fetchSatellites } from '@/api';
+import type { SatellitePass } from '@/types';
 import { Location } from './LocationPicker';
 import './Satellites.css';
 

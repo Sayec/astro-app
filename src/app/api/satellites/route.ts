@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import type { SatelliteResponse, SatellitePass } from '@/types';
+import type { SatelliteData, SatelliteResponse, SatellitePass } from '@/types';
 import { redis } from '@/lib/redis';
 
 const SATELLITES: Record<string, number> = {
@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
                 }
 
                 const data = await response.json() as SatelliteResponse;
-                const passes = (data.passes || []).map(p => ({
+                const passes = (data.passes || []).map((p: any) => ({
                     ...p,
                     satname: name,
                     satid: noradId,

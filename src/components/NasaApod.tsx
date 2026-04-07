@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { fetchApod, ApodData } from '@/api';
+import { fetchApod } from '@/api';
+import type { ApodData } from '@/types';
 import './NasaApod.css';
 
 export default function NasaApod() {
