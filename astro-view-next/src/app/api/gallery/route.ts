@@ -1,14 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getGalleryItems, uploadImageWithContext } from '@/lib/cloudinary';
+import { uploadImage } from '@/lib/cloudinary';
+import { getAllGalleryItems, saveGalleryItem } from '@/lib/gallery';
 import type { GalleryItem } from '@/lib/types';
 
 export async function GET() {
-    const items = await getGalleryItems();
-    return NextResponse.json<GalleryItem[]>(items, {
-        headers: {
-            'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300'
-        }
-    });
+    const items = await getAllGalleryItems();
+    return NextResponse.json<GalleryItem[]>(items);
 }
 
 export async function POST(request: NextRequest) {
@@ -30,33 +27,34 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'Title and object are required' }, { status: 400 });
         }
 
-        // other info
         const description = (formData.get('description') as string) || '';
         const date = (formData.get('date') as string) || new Date().toISOString().split('T')[0];
         const gear = (formData.get('gear') as string) || '';
         const exposure = (formData.get('exposure') as string) || '';
         const iso = (formData.get('iso') as string) || '';
+        const tagsRaw = formData.get('tags') as string | null;
+        let tags: string[] = [];
+        try { tags = tagsRaw ? JSON.parse(tagsRaw) : []; } catch { tags = []; }
 
         const buffer = Buffer.from(await file.arrayBuffer());
-
-        const info = await uploadImageWithContext(buffer, file.name, {
-            title, object, description, date, gear, exposure, iso
-        });
+        const { url, thumbnailUrl, publicId } = await uploadImage(buffer, file.name);
 
         const newItem: GalleryItem = {
-            id: info.publicId, // using publicId as the id
+            id: publicId,
             title,
             object,
             description,
             date,
-            imageUrl: info.url,
-            thumbnailUrl: info.thumbnailUrl,
-            tags: [], // no tags extraction easily right now
+            imageUrl: url,
+            thumbnailUrl,
+            tags,
             gear,
             exposure,
             iso,
-            createdAt: new Date().toISOString()
+            createdAt: new Date().toISOString(),
         };
+
+        await saveGalleryItem(newItem);
 
         return NextResponse.json<GalleryItem>(newItem);
     } catch (error) {

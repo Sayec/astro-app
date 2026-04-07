@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { v2 as cloudinary } from 'cloudinary';
-
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+import { deleteImage } from '@/lib/cloudinary';
+import { deleteGalleryItem } from '@/lib/gallery';
 
 export async function DELETE(
     request: NextRequest,
@@ -19,8 +14,15 @@ export async function DELETE(
     }
 
     try {
-        await cloudinary.uploader.destroy(decodeURIComponent(id));
-        return NextResponse.json({ success: true, id });
+        const publicId = decodeURIComponent(id);
+
+        // Delete from Cloudinary and KV in parallel
+        await Promise.all([
+            deleteImage(publicId),
+            deleteGalleryItem(publicId),
+        ]);
+
+        return NextResponse.json({ success: true, id: publicId });
     } catch (error) {
         console.error('[Gallery DELETE] Error:', error);
         return NextResponse.json({ error: 'Failed to delete photo' }, { status: 500 });
