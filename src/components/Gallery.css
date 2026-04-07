@@ -289,7 +289,8 @@
     max-width: 1000px;
     width: 95%;
     max-height: 92vh;
-    background: linear-gradient(145deg, #0f1525, #0a0e1a);
+    background: var(--bg-card);
+    backdrop-filter: blur(24px);
     border-radius: 20px;
     overflow: hidden;
     position: relative;

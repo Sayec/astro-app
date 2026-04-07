@@ -18,7 +18,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: radial-gradient(circle at 40% 40%, #2a2a3a, #0a0a14);
+    background: var(--bg-card);
+    backdrop-filter: blur(12px);
     border-radius: 50%;
     box-shadow: 0 0 30px rgba(200, 200, 255, 0.1);
 }
