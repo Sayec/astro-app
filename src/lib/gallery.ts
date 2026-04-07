@@ -1,5 +1,5 @@
 import { redis } from './redis';
-import type { GalleryItem } from './types';
+import type { GalleryItem } from '@/types';
 
 const KEY_PREFIX = 'gallery:';
 

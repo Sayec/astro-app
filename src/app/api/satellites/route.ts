@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import type { SatelliteResponse, SatellitePass } from '@/lib/types';
+import type { SatelliteResponse, SatellitePass } from '@/types';
 import { redis } from '@/lib/redis';
 
 const SATELLITES: Record<string, number> = {

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { uploadImage } from '@/lib/cloudinary';
 import { getAllGalleryItems, saveGalleryItem } from '@/lib/gallery';
-import type { GalleryItem } from '@/lib/types';
+import type { GalleryItem } from '@/types';
 
 export async function GET() {
     const items = await getAllGalleryItems();

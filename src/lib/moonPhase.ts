@@ -1,4 +1,4 @@
-import type { MoonPhaseData } from './types';
+import type { MoonPhaseData } from '@/types';
 
 const KNOWN_NEW_MOON = new Date('2000-01-06T18:14:00Z');
 const LUNAR_CYCLE = 29.53058770576; // days

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getMoonPhase } from '@/lib/moonPhase';
-import type { SkyData } from '@/lib/types';
+import type { SkyData } from '@/types';
 import { redis } from '@/lib/redis';
 
 export async function GET(request: NextRequest) {
