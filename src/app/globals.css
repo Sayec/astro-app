@@ -89,12 +89,14 @@ body::after {
     max-width: 1400px;
     margin: 0 auto;
     padding: 40px 40px 24px;
-    padding-left: calc(250px + 40px); /* Space for sidebar */
+    padding-left: calc(250px + 40px);
+    /* Space for sidebar */
     transition: padding-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body.sidebar-closed .app-container {
-    padding-left: calc(80px + 40px); /* Space for 80px collapsed sidebar */
+    padding-left: calc(80px + 40px);
+    /* Space for 80px collapsed sidebar */
 }
 
 .app-header {
@@ -142,7 +144,7 @@ body.sidebar-closed .app-container {
     gap: 20px;
 }
 
-.dashboard-grid > div {
+.dashboard-grid>div {
     scroll-margin-top: 80px;
 }
 
@@ -229,7 +231,8 @@ body.sidebar-closed .app-container {
         font-size: 15px;
     }
 
-    .app-container, body.sidebar-closed .app-container {
+    .app-container,
+    body.sidebar-closed .app-container {
         padding: 80px 16px 24px;
     }
 

@@ -4,9 +4,11 @@ import './Equipment.css';
 const Equipment: React.FC = () => {
     return (
         <section className="equipment-section">
-            <h2 className="equipment-title">Sprzęt</h2>
-
             <div className="equipment-container module-card">
+                <div className="module-header" style={{ marginBottom: '20px' }}>
+                    <h2>🔭 Sprzęt</h2>
+                    <span className="module-subtitle">Zestaw astrofotograficzny</span>
+                </div>
                 <div className="equipment-grid">
 
                     {/* Teleskop */}
