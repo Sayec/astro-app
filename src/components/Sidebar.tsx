@@ -1,34 +1,39 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import './Sidebar.css';
 
 const Sidebar: React.FC = () => {
+    const [mounted, setMounted] = useState(false);
     const [isOpen, setIsOpen] = useState(true);
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
+        setMounted(true);
         const handleResize = () => {
             setIsMobile(window.innerWidth <= 1024);
         };
         handleResize();
         window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
-    // Initial mount: close on mobile
-    useEffect(() => {
+        
         if (window.innerWidth <= 1024) {
             setIsOpen(false);
         }
+
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    // Update body class for responsive container adjustments
     useEffect(() => {
+        if (!mounted) return;
         if (isOpen) {
             document.body.classList.remove('sidebar-closed');
         } else {
             document.body.classList.add('sidebar-closed');
         }
-    }, [isOpen]);
+    }, [isOpen, mounted]);
+
+    const actualIsOpen = mounted ? isOpen : true;
+    const actualIsMobile = mounted ? isMobile : false;
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
@@ -62,19 +67,19 @@ const Sidebar: React.FC = () => {
         <>
             {/* Hamburger button for mobile */}
             <button className="mobile-menu-btn" onClick={toggleSidebar} aria-label="Toggle Menu">
-                <span className={`hamburger-line ${isOpen && isMobile ? 'active-1' : ''}`}></span>
-                <span className={`hamburger-line ${isOpen && isMobile ? 'active-2' : ''}`}></span>
-                <span className={`hamburger-line ${isOpen && isMobile ? 'active-3' : ''}`}></span>
+                <span className={`hamburger-line ${actualIsOpen && actualIsMobile ? 'active-1' : ''}`}></span>
+                <span className={`hamburger-line ${actualIsOpen && actualIsMobile ? 'active-2' : ''}`}></span>
+                <span className={`hamburger-line ${actualIsOpen && actualIsMobile ? 'active-3' : ''}`}></span>
             </button>
 
             {/* Mobile overlay */}
             <div
-                className={`sidebar-overlay ${isOpen ? 'open' : ''}`}
+                className={`sidebar-overlay ${actualIsOpen ? 'open' : ''}`}
                 onClick={closeSidebar}
             ></div>
 
             {/* Sidebar content */}
-            <nav className={`app-sidebar ${isOpen ? 'open' : ''}`}>
+            <nav className={`app-sidebar ${actualIsOpen ? 'open' : ''}`}>
                 <div className="sidebar-header">
                     <a href="#" onClick={scrollToTop} className="sidebar-logo">
                         <img src="/logo.png" alt="AstroView" />
