@@ -1,0 +1,99 @@
+.equipment-section {
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.equipment-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 32px;
+    color: var(--text-primary);
+    background: var(--gradient-aurora);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.equipment-container {
+    padding: 0;
+    overflow: hidden;
+}
+
+.equipment-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+}
+
+.equipment-category {
+    padding: 32px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.border-left {
+    border-left: 1px solid var(--border-subtle);
+}
+
+.border-top {
+    border-top: 1px solid var(--border-subtle);
+}
+
+.category-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+.equipment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.equipment-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+}
+
+.item-name {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.item-desc {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    text-align: right;
+}
+
+/* Responsive considerations */
+@media (max-width: 768px) {
+    .equipment-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .border-left {
+        border-left: none;
+    }
+    
+    .border-top, .border-left {
+        border-top: 1px solid var(--border-subtle);
+    }
+    
+    .equipment-category {
+        padding: 24px 20px;
+    }
+    
+    .equipment-title {
+        font-size: 2rem;
+        margin-bottom: 24px;
+    }
+}

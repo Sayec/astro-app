@@ -10,6 +10,7 @@ import ObjectSearch from '@/components/ObjectSearch';
 import TopObjects from '@/components/TopObjects';
 import FrameCalc from '@/components/FrameCalc';
 import LocationPicker, { Location } from '@/components/LocationPicker';
+import Equipment from '@/components/Equipment';
 
 const DEFAULT_LOCATION: Location = { lat: 52.23, lon: 21.01, name: 'Warszawa' };
 
@@ -31,6 +32,7 @@ export default function Home() {
                         <li><a href="#apod">APOD</a></li>
                         <li><a href="#satellites">Satelity</a></li>
                         <li><a href="#search">Szukaj</a></li>
+                        <li><a href="#equipment">Sprzęt</a></li>
                         <li><a href="#gallery">Galeria</a></li>
                     </ul>
                     <div className="nav-spacer"></div>
@@ -67,6 +69,10 @@ export default function Home() {
                 {/* Row 3: Satellites + Object Search */}
                 <div id="satellites"><Satellites location={location} /></div>
                 <div id="search"><ObjectSearch location={location} /></div>
+
+                <div id="equipment" className="full-width">
+                    <Equipment />
+                </div>
 
                 <div id="gallery" className="full-width">
                     <Gallery />
