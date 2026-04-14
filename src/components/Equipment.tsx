@@ -5,10 +5,10 @@ const Equipment: React.FC = () => {
     return (
         <section className="equipment-section">
             <h2 className="equipment-title">Sprzęt</h2>
-            
+
             <div className="equipment-container module-card">
                 <div className="equipment-grid">
-                    
+
                     {/* Teleskop */}
                     <div className="equipment-category">
                         <h3 className="category-title">TELESKOP</h3>
@@ -16,6 +16,10 @@ const Equipment: React.FC = () => {
                             <div className="equipment-item">
                                 <span className="item-name">Sky-Watcher BKP 150/750</span>
                                 <span className="item-desc">150mm f/5 Newton</span>
+                            </div>
+                            <div className="equipment-item">
+                                <span className="item-name">Sky-Watcher Evoguide 50</span>
+                                <span className="item-desc">Szukacz/guider</span>
                             </div>
                             <div className="equipment-item">
                                 <span className="item-name">HEQ5 Pro</span>
