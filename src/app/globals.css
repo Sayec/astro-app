@@ -3,6 +3,7 @@
 
 html {
     font-size: 19px;
+    scroll-behavior: smooth;
 }
 
 *,
@@ -87,7 +88,7 @@ body::after {
 .app-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 24px 20px;
+    padding: 80px 20px 24px;
 }
 
 .app-header {
@@ -127,11 +128,88 @@ body::after {
     margin-top: 8px;
 }
 
+/* Nav Menu */
+.app-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    margin: 0;
+    padding: 12px 20px;
+    background: rgba(3, 5, 10, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nav-logo-link {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.nav-logo {
+    height: 38px;
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.nav-logo:hover {
+    transform: scale(1.05);
+}
+
+.nav-spacer {
+    flex: 1;
+}
+
+.app-nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    list-style: none;
+    flex: 0 1 auto;
+}
+
+.app-nav ul a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.75rem;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    transition: all 0.3s ease;
+    display: block;
+}
+
+.app-nav ul a:hover,
+.app-nav ul a:focus {
+    color: var(--text-primary);
+    background: var(--bg-card-hover);
+    border-color: rgba(34, 211, 238, 0.4);
+    box-shadow: 0 4px 12px rgba(34, 211, 238, 0.1);
+}
+
 /* Dashboard grid */
 .dashboard-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
+}
+
+.dashboard-grid > div {
+    scroll-margin-top: 80px;
 }
 
 .dashboard-grid .full-width {
@@ -195,6 +273,20 @@ body::after {
     padding: 40px 0 24px;
     font-size: 0.75rem;
     color: var(--text-muted);
+}
+
+.footer-logo {
+    height: 100px;
+    width: auto;
+    object-fit: contain;
+    margin: 0 auto 20px;
+    display: block;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+.footer-logo:hover {
+    opacity: 1;
 }
 
 /* Responsive */
