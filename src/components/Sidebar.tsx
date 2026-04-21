@@ -54,6 +54,7 @@ const Sidebar: React.FC = () => {
     const menuItems = [
         { id: 'weather', label: 'Pogoda', icon: '🌤️' },
         { id: 'tonight', label: 'Dzisiejszej Nocy', icon: '🌙' },
+        { id: 'skymap', label: 'Mapa Nieba', icon: '🗺️' },
         { id: 'framecalc', label: 'Kalkulator Klatek', icon: '📸' },
         { id: 'topobjects', label: 'Top Obiekty', icon: '✨' },
         { id: 'apod', label: 'APOD', icon: '🖼️' },

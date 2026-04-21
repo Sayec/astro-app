@@ -12,6 +12,7 @@ import FrameCalc from '@/components/FrameCalc';
 import Sidebar from '@/components/Sidebar';
 import LocationPicker, { Location } from '@/components/LocationPicker';
 import Equipment from '@/components/Equipment';
+import SkyMap from '@/components/SkyMap';
 
 const DEFAULT_LOCATION: Location = { lat: 52.23, lon: 21.01, name: 'Warszawa' };
 
@@ -34,10 +35,11 @@ export default function Home() {
                 </header>
 
                 <div className="dashboard-grid">
-                    {/* Row 1: Weather + Tonight's sky + Frame calc */}
+                    {/* Row 1/2: Weather + Tonight's sky + Frame calc + SkyMap */}
                     <div id="weather"><AstroWeather location={location} /></div>
                     <div id="tonight"><TonightSky location={location} /></div>
                     <div id="framecalc"><FrameCalc location={location} /></div>
+                    <div id="skymap"><SkyMap location={location} /></div>
 
                     {/* Row 2: Top objects for tonight (full width) */}
                     <div id="topobjects" className="full-width">
