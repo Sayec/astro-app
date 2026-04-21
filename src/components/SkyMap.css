@@ -33,14 +33,16 @@
     justify-content: center;
     align-items: center;
     position: relative;
-    aspect-ratio: 1; /* Square to fit circular map */
+    aspect-ratio: 1;
+    /* Square to fit circular map */
 }
 
 .skymap-container {
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at center, #0f1221 0%, #05060b 100%);
-    border-radius: 50%; /* Circular map */
+    background: radial-gradient(circle at center, #161e38 0%, #080b17 100%);
+    border-radius: 50%;
+    /* Circular map */
     overflow: hidden;
     position: relative;
     box-shadow: inset 0 0 40px rgba(100, 150, 255, 0.1), 0 4px 20px rgba(0, 0, 0, 0.4);
@@ -76,7 +78,27 @@
     z-index: 20;
     text-shadow: 0 0 4px #000;
 }
-.skymap-label.n { top: 8px; left: 50%; transform: translateX(-50%); }
-.skymap-label.s { bottom: 8px; left: 50%; transform: translateX(-50%); }
-.skymap-label.e { left: 8px; top: 50%; transform: translateY(-50%); }
-.skymap-label.w { right: 8px; top: 50%; transform: translateY(-50%); }
+
+.skymap-label.n {
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.skymap-label.s {
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.skymap-label.e {
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.skymap-label.w {
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+}

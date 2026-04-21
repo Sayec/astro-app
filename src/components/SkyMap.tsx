@@ -42,7 +42,7 @@ export default function SkyMap({ location }: SkyMapProps) {
             const app = new Application();
             // Obliczamy szerokość kontenera
             const containerWidth = containerRef.current.clientWidth || 300;
-            
+
             await app.init({
                 width: containerWidth,
                 height: containerWidth, // kwadrat dla okrągłej mapy
@@ -57,9 +57,9 @@ export default function SkyMap({ location }: SkyMapProps) {
             }
 
             // Upewniamy się, że nie dodajemy canvasu wielokrotnie w strict mode
-            if (containerRef.current.children.length > 4) {
-                 const canvas = containerRef.current.querySelector('canvas');
-                 if (canvas) containerRef.current.removeChild(canvas);
+            const existingCanvas = containerRef.current.querySelector('canvas');
+            if (existingCanvas) {
+                containerRef.current.removeChild(existingCanvas);
             }
             containerRef.current.appendChild(app.canvas);
             appRef.current = app;
@@ -69,7 +69,7 @@ export default function SkyMap({ location }: SkyMapProps) {
 
             const renderStars = () => {
                 if (!active) return;
-                
+
                 // Konfiguracja obserwatora i czasu
                 const obs = new Observer(location.lat, location.lon, 0);
                 const time = MakeTime(new Date());
@@ -111,8 +111,7 @@ export default function SkyMap({ location }: SkyMapProps) {
 
                         // Wielkość i przezroczystość na podstawie magnitudo
                         const brightness = Math.max(0.1, 1 - (mag - -1.5) / 7.0);
-                        const radius = Math.max(0.5, 3 - mag * 0.4);
-
+                        const radius = Math.max(1.3, Math.min(2 - mag * 0.4, 1.8));
                         const color = 0xffffff; // Potencjalnie można zmienić na podstawie indeksu B-V
 
                         graphics.circle(x, y, radius).fill({ color, alpha: brightness });
@@ -148,9 +147,11 @@ export default function SkyMap({ location }: SkyMapProps) {
                 <span className="emoji">🌌</span>
                 <h2>Mapa Nieba</h2>
             </div>
-            <div className="skymap-wrapper" ref={containerRef}>
-                {loading && <div className="skymap-loading">Ładowanie mapy...</div>}
-                
+            <div className="skymap-wrapper">
+                <div className="skymap-container" ref={containerRef}>
+                    {loading && <div className="skymap-loading">Ładowanie mapy...</div>}
+                </div>
+
                 {/* Oznaczenia stron świata względem płótna */}
                 <div className="skymap-label n">N</div>
                 <div className="skymap-label e">E</div>
