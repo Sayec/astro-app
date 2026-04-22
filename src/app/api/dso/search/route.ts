@@ -14,8 +14,8 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ results: [] });
     }
 
-    const lat = parseFloat(searchParams.get('lat') as string) || parseFloat(process.env.DEFAULT_LAT || '52.23');
-    const lon = parseFloat(searchParams.get('lon') as string) || parseFloat(process.env.DEFAULT_LON || '21.01');
+    const lat = parseFloat(searchParams.get('lat') as string) || parseFloat(process.env.DEFAULT_LAT || '51.20');
+    const lon = parseFloat(searchParams.get('lon') as string) || parseFloat(process.env.DEFAULT_LON || '19.93');
 
     const authString = getAuthString();
     const searchUrl = `https://api.astronomyapi.com/api/v2/search?term=${encodeURIComponent(term)}&match_type=fuzzy&limit=8`;

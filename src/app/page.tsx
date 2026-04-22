@@ -14,7 +14,7 @@ import LocationPicker, { Location } from '@/components/LocationPicker';
 import Equipment from '@/components/Equipment';
 import SkyMap from '@/components/SkyMap';
 
-const DEFAULT_LOCATION: Location = { lat: 52.23, lon: 21.01, name: 'Warszawa' };
+const DEFAULT_LOCATION: Location = { lat: 51.20, lon: 19.93, name: 'Skotniki' };
 
 export default function Home() {
     const [location, setLocation] = useState<Location>(DEFAULT_LOCATION);

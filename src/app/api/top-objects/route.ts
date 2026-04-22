@@ -54,8 +54,8 @@ function buildReason(
 export async function GET(request: NextRequest) {
     try {
         const { searchParams } = new URL(request.url);
-        const lat = parseFloat(searchParams.get('lat') as string) || parseFloat(process.env.DEFAULT_LAT || '52.23');
-        const lon = parseFloat(searchParams.get('lon') as string) || parseFloat(process.env.DEFAULT_LON || '21.01');
+        const lat = parseFloat(searchParams.get('lat') as string) || parseFloat(process.env.DEFAULT_LAT || '51.20');
+        const lon = parseFloat(searchParams.get('lon') as string) || parseFloat(process.env.DEFAULT_LON || '19.93');
 
         const cacheKey = `cache:top-objects:${lat}:${lon}`;
         try {

@@ -4,8 +4,8 @@ import { redis } from '@/lib/redis';
 
 export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
-    const lat = searchParams.get('lat') || process.env.DEFAULT_LAT || '52.23';
-    const lon = searchParams.get('lon') || process.env.DEFAULT_LON || '21.01';
+    const lat = searchParams.get('lat') || process.env.DEFAULT_LAT || '51.20';
+    const lon = searchParams.get('lon') || process.env.DEFAULT_LON || '19.93';
 
     const cacheKey = `cache:weather:${lat}:${lon}`;
     
