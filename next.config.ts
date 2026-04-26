@@ -9,9 +9,10 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     serverActions: {
-      bodySizeLimit: '10mb',
+      bodySizeLimit: '20mb',
     },
   },
+  serverExternalPackages: ['cloudinary'],
 };
 
 export default nextConfig;

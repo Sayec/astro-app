@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { fetchGallery, uploadPhoto, deletePhoto } from '@/api';
+import { fetchGallery, deletePhoto } from '@/api';
+import { uploadGalleryPhotoAction } from '@/app/actions';
 import type { GalleryItem } from '@/types';
 import './Gallery.css';
 
@@ -117,7 +118,7 @@ export default function Gallery() {
             formData.append('iso', iso);
             formData.append('tags', JSON.stringify(selectedTags));
 
-            const newItem = await uploadPhoto(formData, adminKey);
+            const newItem = await uploadGalleryPhotoAction(formData, adminKey);
             setItems(prev => [newItem, ...prev]);
 
             // Reset form
