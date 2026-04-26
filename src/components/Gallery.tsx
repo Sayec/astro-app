@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { fetchGallery, deletePhoto } from '@/api';
-import { uploadGalleryPhotoAction } from '@/app/actions';
+import { getCloudinarySignature, saveGalleryItemAction } from '@/app/actions';
 import type { GalleryItem } from '@/types';
 import './Gallery.css';
 
@@ -107,18 +107,55 @@ export default function Gallery() {
         setUploadError('');
 
         try {
-            const formData = new FormData();
-            formData.append('image', file);
-            formData.append('title', title);
-            formData.append('object', object);
-            formData.append('description', description);
-            formData.append('date', date);
-            formData.append('gear', gear);
-            formData.append('exposure', exposure);
-            formData.append('iso', iso);
-            formData.append('tags', JSON.stringify(selectedTags));
+            // 1. Pobierz podpis (signature) z serwera, weryfikując adminKey
+            const { signature, timestamp, cloudName, apiKey } = await getCloudinarySignature(adminKey);
 
-            const newItem = await uploadGalleryPhotoAction(formData, adminKey);
+            if (!cloudName || !apiKey) {
+                throw new Error('Brak konfiguracji Cloudinary na serwerze.');
+            }
+
+            // 2. Wyślij plik bezpośrednio do Cloudinary
+            const uploadData = new FormData();
+            uploadData.append('file', file);
+            uploadData.append('api_key', apiKey);
+            uploadData.append('timestamp', timestamp.toString());
+            uploadData.append('signature', signature);
+            uploadData.append('folder', 'astro-view');
+
+            const cloudinaryRes = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+                method: 'POST',
+                body: uploadData,
+            });
+
+            if (!cloudinaryRes.ok) {
+                const errText = await cloudinaryRes.text();
+                throw new Error('Błąd wgrywania na Cloudinary: ' + errText);
+            }
+
+            const cloudinaryResult = await cloudinaryRes.json();
+            const secureUrl = cloudinaryResult.secure_url;
+            const publicId = cloudinaryResult.public_id;
+            
+            // Cloudinary generuje miniaturki dynamicznie
+            const thumbnailUrl = secureUrl.replace('/upload/', '/upload/c_fill,h_300,w_400,q_auto,f_auto/');
+
+            // 3. Zapisz wpis w naszej bazie danych (Redis)
+            const newItemDetails: GalleryItem = {
+                id: publicId,
+                title,
+                object,
+                description,
+                date: date || new Date().toISOString().split('T')[0],
+                imageUrl: secureUrl,
+                thumbnailUrl: thumbnailUrl,
+                tags: selectedTags,
+                gear,
+                exposure,
+                iso,
+                createdAt: new Date().toISOString(),
+            };
+
+            const newItem = await saveGalleryItemAction(newItemDetails, adminKey);
             setItems(prev => [newItem, ...prev]);
 
             // Reset form

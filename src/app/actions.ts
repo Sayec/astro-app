@@ -1,52 +1,38 @@
 'use server';
 
-import { uploadImage } from '@/lib/cloudinary';
+import { v2 as cloudinary } from 'cloudinary';
 import { saveGalleryItem, deleteGalleryItem } from '@/lib/gallery';
 import type { GalleryItem } from '@/types';
 
-export async function uploadGalleryPhotoAction(formData: FormData, adminKey: string): Promise<GalleryItem> {
+export async function getCloudinarySignature(adminKey: string) {
     if (!adminKey || adminKey !== process.env.ADMIN_KEY) {
         throw new Error('Nieautoryzowany dostęp (błędne hasło admina)');
     }
 
-    const file = formData.get('image') as File | null;
-    if (!file) throw new Error('Brak pliku zdjęcia');
+    const timestamp = Math.round((new Date).getTime() / 1000);
+    const params = {
+        timestamp,
+        folder: 'astro-view',
+    };
 
-    const title = formData.get('title') as string;
-    const object = formData.get('object') as string;
-    if (!title || !object) throw new Error('Tytuł i obiekt są wymagane');
+    const signature = cloudinary.utils.api_sign_request(
+        params,
+        process.env.CLOUDINARY_API_SECRET as string
+    );
 
-    const description = (formData.get('description') as string) || '';
-    const date = (formData.get('date') as string) || new Date().toISOString().split('T')[0];
-    const gear = (formData.get('gear') as string) || '';
-    const exposure = (formData.get('exposure') as string) || '';
-    const iso = (formData.get('iso') as string) || '';
-    const tagsRaw = formData.get('tags') as string | null;
-    let tags: string[] = [];
-    try { tags = tagsRaw ? JSON.parse(tagsRaw) : []; } catch { tags = []; }
+    return {
+        signature,
+        timestamp,
+        cloudName: process.env.CLOUDINARY_CLOUD_NAME,
+        apiKey: process.env.CLOUDINARY_API_KEY,
+    };
+}
 
-    try {
-        const buffer = Buffer.from(await file.arrayBuffer());
-        const { url, thumbnailUrl, publicId } = await uploadImage(buffer, file.name);
-
-        const newItem: GalleryItem = {
-            id: publicId,
-            title,
-            object,
-            description,
-            date,
-            imageUrl: url,
-            thumbnailUrl,
-            tags,
-            gear,
-            exposure,
-            iso,
-            createdAt: new Date().toISOString(),
-        };
-
-        await saveGalleryItem(newItem);
-        return newItem;
-    } catch (e: any) {
-        throw new Error('Błąd wgrywania pliku na serwer: ' + e.message);
+export async function saveGalleryItemAction(item: GalleryItem, adminKey: string) {
+    if (!adminKey || adminKey !== process.env.ADMIN_KEY) {
+        throw new Error('Nieautoryzowany dostęp (błędne hasło admina)');
     }
+    
+    await saveGalleryItem(item);
+    return item;
 }
