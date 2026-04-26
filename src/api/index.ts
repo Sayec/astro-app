@@ -56,10 +56,29 @@ export async function uploadPhoto(formData: FormData, adminKey: string): Promise
         headers: { 'x-admin-key': adminKey },
         body: formData,
     });
+    
     if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || 'Upload failed');
+        let errStr = 'Upload failed';
+        const contentType = res.headers.get('content-type');
+        
+        if (contentType && contentType.includes('application/json')) {
+            try {
+                const err = await res.json();
+                errStr = err.error || errStr;
+            } catch (e) {
+                errStr = `Błąd serwera (${res.status}): Niepoprawny format JSON.`;
+            }
+        } else {
+            const text = await res.text();
+            if (res.status === 413) {
+                errStr = 'Błąd: Plik jest zbyt duży (przekroczono limit wielkości).';
+            } else {
+                errStr = `Błąd serwera (${res.status}): ${text.substring(0, 100)}`;
+            }
+        }
+        throw new Error(errStr);
     }
+    
     return res.json();
 }
 

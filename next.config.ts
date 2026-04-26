@@ -7,6 +7,11 @@ const nextConfig: NextConfig = {
       { hostname: 'apod.nasa.gov' },
     ],
   },
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '10mb',
+    },
+  },
 };
 
 export default nextConfig;

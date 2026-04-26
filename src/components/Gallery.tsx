@@ -96,6 +96,12 @@ export default function Gallery() {
         e.preventDefault();
         if (!file || !title || !object) return;
 
+        // Cloudinary free tier limit is 10MB
+        if (file.size > 10 * 1024 * 1024) {
+            setUploadError('Plik jest zbyt duży. Maksymalny rozmiar to 10 MB.');
+            return;
+        }
+
         setUploading(true);
         setUploadError('');
 
