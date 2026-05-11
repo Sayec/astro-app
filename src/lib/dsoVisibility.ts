@@ -40,18 +40,7 @@ function radToDeg(rad: number): number {
  * Calculate Local Sidereal Time (LST) in hours
  */
 function getLocalSiderealTime(date: Date, lonDeg: number): number {
-    // Julian date calculation
-    const y = date.getUTCFullYear();
-    const m = date.getUTCMonth() + 1;
-    const d = date.getUTCDate();
-    const h = date.getUTCHours() + date.getUTCMinutes() / 60 + date.getUTCSeconds() / 3600;
-
-    let jd: number;
-    if (m <= 2) {
-        jd = Math.floor(365.25 * (y - 1 + 4716)) + Math.floor(30.6001 * (m + 12 + 1)) + d + h / 24 - 1524.5;
-    } else {
-        jd = Math.floor(365.25 * (y + 4716)) + Math.floor(30.6001 * (m + 1)) + d + h / 24 - 1524.5;
-    }
+    const jd = (date.getTime() / 86400000) + 2440587.5;
 
     const T = (jd - 2451545.0) / 36525.0;
     let gmst = 280.46061837 + 360.98564736629 * (jd - 2451545.0)
